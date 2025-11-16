@@ -51,6 +51,7 @@
 ## 🛠️ Технологии 
 
 Backend: 
+
 <div style="margin-left: 20px;">
   ✔️PHP 8.1+ — Современный серверный язык программирования
 
@@ -62,7 +63,9 @@ Backend:
 
   ✔️PDO — Объекты доступа к данным
 </div>
+
 Frontend:
+
 <div style="margin-left: 20px;">
   ✔️Vue.js 3 — Прогрессивный JavaScript фреймворк
 
@@ -72,7 +75,9 @@ Frontend:
 
   ✔️Responsive Design — Адаптивный интерфейс
 </div> 
+
 DevOps 
+
 <div style="margin-left: 20px;">
   ✔️Docker — Контейнеризация приложения
 
@@ -106,7 +111,8 @@ DevOps
 
 ## 🎨 Возможности 
 Для клиентов:
-<div style="margin-left: 20px;">
+
+<div style="margin-left: 30px;">
   📝 Создание новых обращений
 
   👀 Просмотр статуса своих обращений
@@ -115,8 +121,10 @@ DevOps
 
   📊 Сортировка по различным критериям
 </div>
+
 Для администраторов: 
-<div style="margin-left: 20px;">
+
+<div style="margin-left: 30px;">
   📋 Просмотр всех обращений
 
   ✏️ Редактирование задач

@@ -35,7 +35,8 @@ class AuthController extends BaseController {
 			return;
 		}
 
-		if ($this->user->findByUsername($input['username'])) {
+		$existingUser = $this->user->findByUsername($input['username']);
+		if ($existingUser) { // Пользователь существует
 			$this->sendError('Username already exists', 409);
 			return;
 		}

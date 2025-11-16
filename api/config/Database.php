@@ -13,7 +13,7 @@ class Database {
 	private string $password;
 
 	public function __construct() {
-		$dotenv = Dotenv::createImmutable(__DIR__ . '/customerTracker');
+		$dotenv = Dotenv::createImmutable(__DIR__ . '/../../');
 		$dotenv->load();
 
 		$this->host = $_ENV['DB_HOST'];

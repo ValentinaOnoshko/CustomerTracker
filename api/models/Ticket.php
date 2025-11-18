@@ -49,6 +49,18 @@ class Ticket extends Model {
 		return $this->conn->query($query)->fetchAll(PDO::FETCH_ASSOC);
 	}
 
+	public function getById(mixed $id): array|false {
+		$query = "SELECT t.*, s.name as status_name, u.username as user_name 
+                  FROM " . $this->table_name . " t
+                  LEFT JOIN statuses s ON t.status_id = s.id
+                  LEFT JOIN users u ON t.user_id = u.id
+                  WHERE t.id = :id";
+		$stmt = $this->conn->prepare($query);
+		$stmt->bindParam(':id', $id);
+		$stmt->execute();
+		return $stmt->fetch(PDO::FETCH_ASSOC);
+	}
+
 	public function addTag(mixed $ticket_id, mixed $tag_id): bool {
 		$query = "INSERT INTO ticket_tags (ticket_id, tag_id) VALUES (:ticket_id, :tag_id)";
 		$stmt = $this->conn->prepare($query);

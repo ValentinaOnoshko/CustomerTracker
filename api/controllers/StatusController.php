@@ -13,7 +13,7 @@ class StatusController extends BaseController {
 	}
 
 	public function getAll(): void {
-		AuthMiddleware::requireRole('admin');
+		AuthMiddleware::authenticate();
 		$statuses = $this->status->getAll();
 		$this->sendSuccess(['data' => $statuses]);
 	}

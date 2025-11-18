@@ -13,7 +13,7 @@ class JWT {
 	private string $algorithm = 'HS256';
 
 	public function __construct() {
-		$this->key = $_ENV['JWT_SECRET'];
+		$this->key = $_ENV['JWT_SECRET'] ?? getenv('JWT_SECRET') ?: 'your-secret-key-change-in-production';
 	}
 
 	public function generateToken(array $payload): string {

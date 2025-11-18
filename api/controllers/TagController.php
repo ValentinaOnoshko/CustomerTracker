@@ -15,7 +15,7 @@ class TagController extends BaseController {
 	public function getAll(): void {
 		AuthMiddleware::requireRole('admin');
 		$tags = $this->tag->getAll();
-		$this->sendJson(['success' => true, 'data' => $tags], 200);
+		$this->sendSuccess(['data' => $tags]);
 	}
 
 	public function create(): void {
@@ -30,10 +30,12 @@ class TagController extends BaseController {
 			return;
 		}
 
-		if ($this->tag->create(['name' => $input['name']])) {
-			$this->sendJson(['success' => true, 'message' => 'Tag created successfully'], 200);
+		$tagId = $this->tag->create(['name' => $input['name']]);
+		if ($tagId) {
+			$tag = $this->tag->getById($tagId);
+			$this->sendSuccess(['message' => 'Tag created successfully', 'data' => $tag]);
 		} else {
-			$this->sendJson(['error' => 'Failed to create tag'], 500);
+			$this->sendError('Failed to create tag', 500);
 		}
 	}
 
@@ -45,14 +47,14 @@ class TagController extends BaseController {
 		}
 
 		if (!isset($input['name'])) {
-			$this->sendJson(['error' => 'Name required'], 400);
+			$this->sendError('Name required');
 			return;
 		}
 
 		if ($this->tag->update($id, ['name' => $input['name']])) {
-			$this->sendJson(['success' => true, 'message' => 'Tag updated successfully'], 200);
+			$this->sendSuccess(['message' => 'Tag updated successfully']);
 		} else {
-			$this->sendJson(['error' => 'Failed to update tag'], 500);
+			$this->sendError('Failed to update tag', 500);
 		}
 	}
 
@@ -60,9 +62,9 @@ class TagController extends BaseController {
 		AuthMiddleware::requireRole('admin');
 
 		if ($this->tag->delete($id)) {
-			$this->sendJson(['success' => true, 'message' => 'Tag deleted successfully'], 200);
+			$this->sendSuccess(['message' => 'Tag deleted successfully']);
 		} else {
-			$this->sendJson(['error' => 'Failed to delete tag'], 500);
+			$this->sendError('Failed to delete tag', 500);
 		}
 	}
 }

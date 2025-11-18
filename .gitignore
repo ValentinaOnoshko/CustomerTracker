@@ -1,7 +1,15 @@
 vendor/
 node_modules/
 .env
-.env.local
-.env.production
 *.log
-.DS_Storem
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+Thumbs.db

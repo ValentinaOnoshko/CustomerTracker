@@ -3,6 +3,7 @@
 namespace App\config;
 
 use Dotenv\Dotenv;
+use Exception;
 use PDO;
 use PDOException;
 
@@ -13,13 +14,17 @@ class Database {
 	private string $password;
 
 	public function __construct() {
-		$dotenv = Dotenv::createImmutable(__DIR__ . '/../../');
-		$dotenv->load();
+		try {
+			$dotenv = Dotenv::createImmutable(__DIR__ . '/../../');
+			$dotenv->load();
+		} catch (Exception) {
+			// .env файл не найден, используем значения по умолчанию из docker-compose
+		}
 
-		$this->host = $_ENV['DB_HOST'];
-		$this->db_name = $_ENV['DB_NAME'];
-		$this->username = $_ENV['DB_USER'];
-		$this->password = $_ENV['DB_PASSWORD'];
+		$this->host = $_ENV['DB_HOST'] ?? getenv('DB_HOST') ?: 'mysql';
+		$this->db_name = $_ENV['DB_NAME'] ?? getenv('DB_NAME') ?: 'tracker';
+		$this->username = $_ENV['DB_USER'] ?? getenv('DB_USER') ?: 'user';
+		$this->password = $_ENV['DB_PASSWORD'] ?? getenv('DB_PASSWORD') ?: '111111';
 	}
 
 	public function getConnection(): PDO {

@@ -5,11 +5,14 @@ namespace App\models;
 class Tag extends Model {
 	protected string $table_name = 'tags';
 
-	public function create(array $data): bool {
+	public function create(array $data): int|false {
 		$query = "INSERT INTO " . $this->table_name . " (name) VALUES (:name)";
 		$stmt = $this->conn->prepare($query);
 		$stmt->bindParam(':name', $data['name']);
-		return $stmt->execute();
+		if ($stmt->execute()) {
+			return (int)$this->conn->lastInsertId();
+		}
+		return false;
 	}
 
 	public function update(mixed $id, array $data): bool {

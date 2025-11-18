@@ -45,4 +45,17 @@ CREATE TABLE ticket_tags (
                              UNIQUE KEY unique_ticket_tag (ticket_id, tag_id)
 );
 
+CREATE TABLE comments (
+                          id INT AUTO_INCREMENT PRIMARY KEY,
+                          ticket_id INT NOT NULL,
+                          user_id INT NOT NULL,
+                          message TEXT NOT NULL,
+                          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                          FOREIGN KEY (ticket_id) REFERENCES tickets(id) ON DELETE CASCADE,
+                          FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
 INSERT INTO statuses (name) VALUES ('ToDo'), ('InProgress'), ('Ready For Review'), ('Done');
+
+INSERT IGNORE INTO users (username, password, role) VALUES 
+('admin', '$2y$10$gcA8jR1QiokjATS3rWfY0eqDZBgt5E08Un8EpG/DMRcTV7KzWtbxC', 'admin');

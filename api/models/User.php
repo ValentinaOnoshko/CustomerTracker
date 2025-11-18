@@ -20,12 +20,13 @@ class User extends Model {
 		return $stmt->execute();
 	}
 
-	public function findByUsername(string $username): array {
+	public function findByUsername(string $username): ?array {
 		$query = "SELECT * FROM " . $this->table_name . " WHERE username = :username";
 		$stmt = $this->conn->prepare($query);
 		$stmt->bindParam(':username', $username);
 		$stmt->execute();
-		return $stmt->fetch(PDO::FETCH_ASSOC);
+		$result = $stmt->fetch(PDO::FETCH_ASSOC);
+		return $result ?: null;
 	}
 
 	public function authenticate(string $username, string $password): array {

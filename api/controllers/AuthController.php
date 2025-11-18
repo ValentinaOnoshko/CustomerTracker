@@ -35,8 +35,14 @@ class AuthController extends BaseController {
 			return;
 		}
 
-		if ($this->user->findByUsername($input['username'])) {
+		$existingUser = $this->user->findByUsername($input['username']);
+		if ($existingUser) {
 			$this->sendError('Username already exists', 409);
+			return;
+		}
+
+		if (strtolower($input['username']) === 'admin') {
+			$this->sendError('Username "admin" is reserved');
 			return;
 		}
 
@@ -47,7 +53,16 @@ class AuthController extends BaseController {
 		];
 
 		if ($this->user->create($userData)) {
-			$this->sendSuccess(['message' => 'User created successfully']);
+			$result = $this->user->authenticate($input['username'], $input['password']);
+			if ($result['success']) {
+				$this->sendSuccess([
+					'message' => 'User created successfully',
+					'token' => $result['token'],
+					'user' => $result['user']
+				]);
+			} else {
+				$this->sendSuccess(['message' => 'User created successfully. Please login.']);
+			}
 		} else {
 			$this->sendError('Failed to create user', 500);
 		}

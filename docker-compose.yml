@@ -7,8 +7,16 @@ services:
     working_dir: /var/www
     volumes:
       - ./:/var/www
+    environment:
+      DB_HOST: mysql
+      DB_NAME: tracker
+      DB_USER: user
+      DB_PASSWORD: 111111
+      JWT_SECRET: ${JWT_SECRET:-your-secret-key-change-in-production}
     networks:
       - tracker
+    depends_on:
+      - mysql
 
   nginx:
     image: nginx:alpine
@@ -22,6 +30,7 @@ services:
       - tracker
     depends_on:
       - app
+      - vue
 
   mysql:
     image: mysql:8.0
@@ -52,8 +61,6 @@ services:
     working_dir: /app
     networks:
       - tracker
-    depends_on:
-      - nginx
 
 networks:
   tracker:
